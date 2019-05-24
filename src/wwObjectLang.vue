@@ -12,16 +12,7 @@
                 <div class="triangle-after" :style="{'background-color': backgroundColor}"></div>
             </div>
             <div class="lang-container" :style="{'color': mainColor, 'background-color': backgroundColor}">
-                <div
-                    class="lang"
-                    v-for="(lang, index) in availableLangs"
-                    :src="flag"
-                    :key="lang"
-                    @mouseover="setHoverColor(true, index)"
-                    @mouseleave="setHoverColor(false, index)"
-                    :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: '')}"
-                    @click="setLang(lang)"
-                >
+                <div class="lang" v-for="(lang, index) in availableLangs" :src="flag" :key="lang" @mouseover="setHoverColor(true, index)" @mouseleave="setHoverColor(false, index)" :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: ''), 'color': ((elementHover && (activeElementIndex == index)) ? hoverColorText: '')}" @click="setLang(lang)">
                     <div class="ww-lang-flag">
                         <img :src="displayFlag(lang)">
                         {{displayLang(lang)}}
@@ -33,7 +24,7 @@
 </template>
  
 
-<script>			
+<script>
 import Vue from 'vue';
 
 export default {
@@ -51,7 +42,6 @@ export default {
             elementHover: false,
             activeElement: 0,
             currentLang: wwLib.wwLang.lang,
-            availableLangs: wwLib.wwLang.availableLangs,
             languages: {
                 en: {
                     en: 'English',
@@ -84,11 +74,19 @@ export default {
             return this.wwObject.content.data.backgroundColor
         },
         hoverColor() {
-
             return this.wwObject.content.data.hoverColor
+        },
+        hoverColorText() {
+            return this.wwObject.content.data.hoverColorText
+        },
+        colorText() {
+            return this.wwObject.content.data.colorText
         },
         activeElementIndex() {
             return this.activeElement
+        },
+        availableLangs() {
+            return wwLib.$store.getters["websiteData/getPage"].langs
         }
     },
     watch: {
@@ -97,18 +95,31 @@ export default {
         init() {
             this.loaded = true
             this.wwObject.content.data = this.wwObject.content.data || {}
-            this.wwObject.content.data.backgroundColor = '#ffffff'
-            this.wwObject.content.data.hoverColor = '#fafafa'
+            this.wwObject.content.data.backgroundColor = this.wwObject.content.data.backgroundColor || '#ffffff'
+            this.wwObject.content.data.hoverColor = this.wwObject.content.data.hoverColor || '#fafafa'
+            this.wwObject.content.data.hoverColorText = this.wwObject.content.data.hoverColorText || '#8f1afe'
 
 
             if (!this.wwObject.content.data.dropDownIcon) {
                 this.wwObject.content.data.dropDownIcon = wwLib.wwObject.getDefault({
-                    type: "ww-icon",
-
-                });
+                    type: 'ww-icon',
+                    data: {
+                        icon: "fas fa-angle-down",
+                        style: {
+                            backgroundColor: '#FFFFFF00',
+                            borderWidth: 0,
+                            size: 24,
+                            fontSize: 24
+                        }
+                    }
+                })
                 this.wwObjectCtrl.update(this.wwObject);
 
             }
+
+            wwLib.$on('wwLang:changed', (options) => {
+                this.currentLang = options.new;
+            });
         },
         setLang(lang) {
             wwLib.wwLang.setLang(lang)
@@ -154,44 +165,54 @@ export default {
                     fields: [
                         {
                             label: {
-                                en: 'Background Color:',
+                                en: 'Background color:',
                                 fr: 'Couleur du fond :'
                             },
                             type: 'color',
                             key: 'backgroundColor',
-                            value: "#ffffff",
-                            valueData: 'backgroundColor',
+                            valueData: 'wwObject.content.data.backgroundColor',
                             desc: {
-                                en: 'Choose a Background color',
+                                en: 'Choose a background color',
                                 fr: 'Changer la couleur du fond '
                             }
                         },
                         {
                             label: {
-                                en: 'Hover Color:',
-                                fr: 'Couleur du Hover :'
+                                en: 'Text color:',
+                                fr: 'Couleur du text :'
                             },
                             type: 'color',
-                            key: 'hoverColor',
-                            value: "#fafafa",
-                            valueData: 'hoverColor',
+                            key: 'mainColor',
+                            valueData: 'wwObject.content.data.mainColor',
                             desc: {
-                                en: 'Choose the Hover color',
-                                fr: 'Changer la couleur du Hover '
+                                en: 'Edit the object text color',
+                                fr: 'Éditer la couleur du texte '
                             }
                         },
                         {
                             label: {
-                                en: 'Edit the color:',
-                                fr: 'Configurer la couleur :'
+                                en: 'Text hover color:',
+                                fr: 'Couleur au survol :'
                             },
                             type: 'color',
-                            key: 'mainColor',
-                            value: "#000000",
-                            valueData: 'mainColor',
+                            key: 'hoverColorText',
+                            valueData: 'wwObject.content.data.hoverColorText',
                             desc: {
-                                en: 'Edit the object text color',
-                                fr: 'Éditer la couleur du texte '
+                                en: 'Edit the object text hover color',
+                                fr: 'Éditer la couleur du texte au survol '
+                            }
+                        },
+                        {
+                            label: {
+                                en: 'Text\'s background hover color:',
+                                fr: 'Couleur du fond du text au survol :'
+                            },
+                            type: 'color',
+                            key: 'hoverColor',
+                            valueData: 'wwObject.content.data.hoverColor',
+                            desc: {
+                                en: 'Choose the text\'s background hover color',
+                                fr: 'Changer la couleur du fond du text au survol '
                             }
                         },
                     ]
@@ -224,7 +245,7 @@ export default {
             let options = {
                 firstPage: 'WWLANG_EDIT',
                 data: {
-                    wwObject: this.wwObject
+                    wwObject: this.wwObject,
                 }
             }
 
@@ -243,6 +264,10 @@ export default {
                 if (typeof (result.hoverColor) != 'undefined') {
                     this.wwObject.content.data.hoverColor = result.hoverColor;
                 }
+                if (typeof (result.hoverColorText) != 'undefined') {
+                    this.wwObject.content.data.hoverColorText = result.hoverColorText;
+                }
+
                 this.wwObjectCtrl.update(this.wwObject);
                 this.wwObjectCtrl.globalEdit(result);
             } catch (error) {
@@ -351,9 +376,6 @@ export default {
                         margin-right: 5px;
                         width: 20px;
                         border-radius: 7px;
-                    }
-                    &:hover {
-                        color: #8f1afe;
                     }
                 }
             }

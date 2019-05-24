@@ -9,7 +9,24 @@ const addComponent = function () {
         wwLib.wwObject.register({
             content: {
                 type: name,
-                data: {}
+                data: {
+                    dropDownIcon: wwLib.wwObject.getDefault({
+                        type: 'ww-icon',
+                        data: {
+                            icon: "fas fa-angle-down",
+                            style: {
+                                backgroundColor: '#FFFFFF00',
+                                borderWidth: 0,
+                                size: 24,
+                                fontSize: 24
+                            }
+                        }
+                    }),
+                    mainColor: '#000000',
+                    backgroundColor: '#FFFFFF',
+                    hoverColor: '#FAFAFA',
+                    hoverColorText: '#8f1afe',
+                }
             },
             upsales: {
                 wwAnalytics: {
@@ -19,7 +36,7 @@ const addComponent = function () {
             /* wwManager:start */
             cmsOptions: {
                 wwObjectHover: {
-                    pointerEvents: true
+                    //pointerEvents: true
                 },
                 wwObjectMenu: {
                     items: [
