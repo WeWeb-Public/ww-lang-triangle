@@ -12,7 +12,16 @@
                 <div class="triangle-after" :style="{'background-color': backgroundColor}"></div>
             </div>
             <div class="lang-container" :style="{'color': mainColor, 'background-color': backgroundColor}">
-                <div class="lang" v-for="(lang, index) in availableLangs" :src="flag" :key="lang" @mouseover="setHoverColor(true, index)" @mouseleave="setHoverColor(false, index)" :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: ''), 'color': ((elementHover && (activeElementIndex == index)) ? hoverColorText: '')}" @click="setLang(lang)">
+                <div
+                    class="lang"
+                    v-for="(lang, index) in availableLangs"
+                    :src="flag"
+                    :key="lang"
+                    @mouseover="setHoverColor(true, index)"
+                    @mouseleave="setHoverColor(false, index)"
+                    :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: ''), 'color': ((elementHover && (activeElementIndex == index)) ? hoverColorText: '')}"
+                    @click="setLang(lang)"
+                >
                     <div class="ww-lang-flag">
                         <img :src="displayFlag(lang)" />
                         {{displayLang(lang)}}
