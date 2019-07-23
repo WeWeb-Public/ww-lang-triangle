@@ -1,7 +1,7 @@
 <template>
     <div class="ww-lang" @mouseover="setHoverMenu(true)" @mouseleave="setHoverMenu(false)" :style="{'color': mainColor}">
         <div class="ww-lang-flag-title">
-            <img :src="flag">
+            <img :src="flag" />
             <div class="dropdown-icon">
                 <wwObject tag="div" class="dropdown-button-icon" :ww-object="wwObject.content.data.dropDownIcon" :class="{'rotate-icon':enabledMenu}"></wwObject>
             </div>
@@ -14,7 +14,7 @@
             <div class="lang-container" :style="{'color': mainColor, 'background-color': backgroundColor}">
                 <div class="lang" v-for="(lang, index) in availableLangs" :src="flag" :key="lang" @mouseover="setHoverColor(true, index)" @mouseleave="setHoverColor(false, index)" :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: ''), 'color': ((elementHover && (activeElementIndex == index)) ? hoverColorText: '')}" @click="setLang(lang)">
                     <div class="ww-lang-flag">
-                        <img :src="displayFlag(lang)">
+                        <img :src="displayFlag(lang)" />
                         {{displayLang(lang)}}
                     </div>
                 </div>
@@ -40,18 +40,7 @@ export default {
         return {
             enabledMenu: false,
             elementHover: false,
-            activeElement: 0,
-            currentLang: wwLib.wwLang.lang,
-            languages: {
-                en: {
-                    en: 'English',
-                    fr: 'French'
-                },
-                fr: {
-                    en: 'Anglais',
-                    fr: 'Français'
-                }
-            }
+            activeElement: 0
         }
     },
     computed: {
@@ -85,6 +74,9 @@ export default {
         activeElementIndex() {
             return this.activeElement
         },
+        currentLang() {
+            return wwLib.$store.getters["front/getLang"]
+        },
         availableLangs() {
             return wwLib.$store.getters["websiteData/getPage"].langs
         }
@@ -116,17 +108,16 @@ export default {
                 this.wwObjectCtrl.update(this.wwObject);
 
             }
-
-            wwLib.$on('wwLang:changed', (options) => {
-                this.currentLang = options.new;
-            });
         },
         setLang(lang) {
             wwLib.wwLang.setLang(lang)
-            this.currentLang = lang
         },
         displayLang(lang) {
-            return this.languages[lang][lang]
+            for (const l of wwLib.wwLang.availableLangs) {
+                if (l.value.toLowerCase() == lang.toLowerCase()) {
+                    return l.name;
+                }
+            }
         },
         displayFlag(lang) {
             return wwLib.wwApiRequests._getCdnUrl() + 'public/images/flags/' + lang + '.png'
@@ -138,6 +129,7 @@ export default {
             this.activeElement = index
             this.elementHover = value
         },
+        /* wwManager:start */
         async edit() {
             wwLib.wwObjectHover.setLock(this);
             let editList = {
@@ -275,17 +267,10 @@ export default {
             }
             wwLib.wwObjectHover.removeLock();
         }
+        /* wwManager:end */
     },
     mounted() {
         this.init();
-
-        wwLib.wwElementsStyle.applyAllStyles({
-            wwObject: this.wwObject,
-            lastWwObject: null,
-            element: this.$el,
-            noAnim: this.wwAttrs.wwNoAnim,
-            noClass: false,
-        });
 
         this.$emit('ww-loaded', this);
 
