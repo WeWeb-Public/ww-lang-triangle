@@ -1,5 +1,5 @@
 <template>
-    <div class="ww-lang" @mouseover="setHoverMenu(true)" @mouseleave="setHoverMenu(false)" :style="{'color': mainColor}">
+    <div class="ww-lang-triangle" @mouseover="setHoverMenu(true)" @mouseleave="setHoverMenu(false)" :style="{'color': mainColor}">
         <div class="ww-lang-flag-title">
             <img :src="flag" />
             <div class="dropdown-icon">
@@ -12,16 +12,7 @@
                 <div class="triangle-after" :style="{'background-color': backgroundColor}"></div>
             </div>
             <div class="lang-container" :style="{'color': mainColor, 'background-color': backgroundColor}">
-                <div
-                    class="lang"
-                    v-for="(lang, index) in availableLangs"
-                    :src="flag"
-                    :key="lang"
-                    @mouseover="setHoverColor(true, index)"
-                    @mouseleave="setHoverColor(false, index)"
-                    :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: ''), 'color': ((elementHover && (activeElementIndex == index)) ? hoverColorText: '')}"
-                    @click="setLang(lang)"
-                >
+                <div class="lang" v-for="(lang, index) in availableLangs" :src="flag" :key="lang" @mouseover="setHoverColor(true, index)" @mouseleave="setHoverColor(false, index)" :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: ''), 'color': ((elementHover && (activeElementIndex == index)) ? hoverColorText: '')}" @click="setLang(lang)">
                     <div class="ww-lang-flag">
                         <img :src="displayFlag(lang)" />
                         {{displayLang(lang)}}
@@ -291,7 +282,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ww-lang {
+.ww-lang-triangle {
     position: relative;
     min-width: 50px;
     height: 100%;
