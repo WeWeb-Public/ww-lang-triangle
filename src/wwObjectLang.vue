@@ -3,7 +3,7 @@
         <div class="ww-lang-flag-title">
             <img :src="flag" />
             <div class="dropdown-icon">
-                <wwObject tag="div" class="dropdown-button-icon" :ww-object="wwObject.content.data.dropDownIcon" :class="{'rotate-icon':enabledMenu}"></wwObject>
+                <wwObject tag="div" class="dropdown-button-icon" :ww-object="wwObject.data.dropDownIcon" :class="{'rotate-icon':enabledMenu}"></wwObject>
             </div>
         </div>
 
@@ -51,25 +51,25 @@ export default {
             return this.wwObjectCtrl.getEditMode() == 'CONTENT'
         },
         mainColor() {
-            return this.wwObject.content.data.mainColor || '#2c2c2c'
+            return this.wwObject.data.mainColor || '#2c2c2c'
         },
         iconColor() {
-            return this.wwObject.content.data.iconColor || '#d9d9d9'
+            return this.wwObject.data.iconColor || '#d9d9d9'
         },
         flag() {
             return wwLib.wwApiRequests._getCdnUrl() + 'public/images/flags/' + this.currentLang + '.png'
         },
         backgroundColor() {
-            return this.wwObject.content.data.backgroundColor
+            return this.wwObject.data.backgroundColor
         },
         hoverColor() {
-            return this.wwObject.content.data.hoverColor
+            return this.wwObject.data.hoverColor
         },
         hoverColorText() {
-            return this.wwObject.content.data.hoverColorText
+            return this.wwObject.data.hoverColorText
         },
         colorText() {
-            return this.wwObject.content.data.colorText
+            return this.wwObject.data.colorText
         },
         activeElementIndex() {
             return this.activeElement
@@ -86,14 +86,14 @@ export default {
     methods: {
         init() {
             this.loaded = true
-            this.wwObject.content.data = this.wwObject.content.data || {}
-            this.wwObject.content.data.backgroundColor = this.wwObject.content.data.backgroundColor || '#ffffff'
-            this.wwObject.content.data.hoverColor = this.wwObject.content.data.hoverColor || '#fafafa'
-            this.wwObject.content.data.hoverColorText = this.wwObject.content.data.hoverColorText || '#8f1afe'
+            this.wwObject.data = this.wwObject.data || {}
+            this.wwObject.data.backgroundColor = this.wwObject.data.backgroundColor || '#ffffff'
+            this.wwObject.data.hoverColor = this.wwObject.data.hoverColor || '#fafafa'
+            this.wwObject.data.hoverColorText = this.wwObject.data.hoverColorText || '#8f1afe'
 
 
-            if (!this.wwObject.content.data.dropDownIcon) {
-                this.wwObject.content.data.dropDownIcon = wwLib.wwObject.getDefault({
+            if (!this.wwObject.data.dropDownIcon) {
+                this.wwObject.data.dropDownIcon = wwLib.wwObject.getDefault({
                     type: 'ww-icon',
                     data: {
                         icon: "fas fa-angle-down",
@@ -162,7 +162,7 @@ export default {
                             },
                             type: 'color',
                             key: 'backgroundColor',
-                            valueData: 'wwObject.content.data.backgroundColor',
+                            valueData: 'wwObject.data.backgroundColor',
                             desc: {
                                 en: 'Choose a background color',
                                 fr: 'Changer la couleur du fond '
@@ -175,7 +175,7 @@ export default {
                             },
                             type: 'color',
                             key: 'mainColor',
-                            valueData: 'wwObject.content.data.mainColor',
+                            valueData: 'wwObject.data.mainColor',
                             desc: {
                                 en: 'Edit the object text color',
                                 fr: 'Éditer la couleur du texte '
@@ -188,7 +188,7 @@ export default {
                             },
                             type: 'color',
                             key: 'hoverColorText',
-                            valueData: 'wwObject.content.data.hoverColorText',
+                            valueData: 'wwObject.data.hoverColorText',
                             desc: {
                                 en: 'Edit the object text hover color',
                                 fr: 'Éditer la couleur du texte au survol '
@@ -201,7 +201,7 @@ export default {
                             },
                             type: 'color',
                             key: 'hoverColor',
-                            valueData: 'wwObject.content.data.hoverColor',
+                            valueData: 'wwObject.data.hoverColor',
                             desc: {
                                 en: 'Choose the text\'s background hover color',
                                 fr: 'Changer la couleur du fond du text au survol '
@@ -248,16 +248,16 @@ export default {
                   STYLE
                 \================================================================================================*/
                 if (typeof (result.mainColor) != 'undefined') {
-                    this.wwObject.content.data.mainColor = result.mainColor;
+                    this.wwObject.data.mainColor = result.mainColor;
                 }
                 if (typeof (result.backgroundColor) != 'undefined') {
-                    this.wwObject.content.data.backgroundColor = result.backgroundColor;
+                    this.wwObject.data.backgroundColor = result.backgroundColor;
                 }
                 if (typeof (result.hoverColor) != 'undefined') {
-                    this.wwObject.content.data.hoverColor = result.hoverColor;
+                    this.wwObject.data.hoverColor = result.hoverColor;
                 }
                 if (typeof (result.hoverColorText) != 'undefined') {
-                    this.wwObject.content.data.hoverColorText = result.hoverColorText;
+                    this.wwObject.data.hoverColorText = result.hoverColorText;
                 }
 
                 this.wwObjectCtrl.update(this.wwObject);
