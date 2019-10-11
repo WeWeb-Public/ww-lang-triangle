@@ -318,9 +318,9 @@ export default {
         .triangle {
             width: 20px;
             height: 20px;
-            position: relative;
+            position: absolute;
             overflow: hidden;
-            float: right;
+            // float: right;
             right: 30px;
             top: 1px;
             box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
@@ -344,6 +344,7 @@ export default {
             font-family: sans-serif;
             padding: 5px 0;
             color: black;
+            margin-top: 20px;
             box-shadow: black;
             .lang {
                 width: 100%;

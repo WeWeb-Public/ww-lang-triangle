@@ -31,18 +31,7 @@ const addComponent = function () {
             content: {
                 type: name,
                 data: {
-                    dropDownIcon: wwLib.wwObject.getDefault({
-                        type: 'ww-icon',
-                        data: {
-                            icon: "fas fa-angle-down",
-                            style: {
-                                backgroundColor: '#FFFFFF00',
-                                borderWidth: 0,
-                                size: 24,
-                                fontSize: 24
-                            }
-                        }
-                    }),
+                    dropDownIcon: null,
                     mainColor: '#000000',
                     backgroundColor: '#FFFFFF',
                     hoverColor: '#FAFAFA',
