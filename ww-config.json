@@ -1,0 +1,29 @@
+{
+	"componentPath": "./src/wwObjectLang.vue",
+	"content": {
+		"type": "ww-lang-triangle",
+		"data": { "dropDownIcon": null, "mainColor": "#000000", "backgroundColor": "#FFFFFF", "hoverColor": "#FAFAFA", "hoverColorText": "#8f1afe" }
+	},
+	"upsales": {
+		"wwAnalytics": {
+			"click": false
+		}
+	},
+	"cmsOptions": {
+		"wwObjectHover": {},
+		"wwObjectMenu": {
+			"items": [
+				{
+					"name": "OPTIONS",
+					"main": true,
+					"text": {
+						"en": "Options",
+						"fr": "Options"
+					},
+					"icon": "wwi wwi-edit-other",
+					"action": "edit"
+				}
+			]
+		}
+	}
+}
