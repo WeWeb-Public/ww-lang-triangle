@@ -116,7 +116,8 @@ export default {
     },
     setLang(lang) {
       const route = wwLib.wwWebsiteData.getCurrentPage().route;
-      const path = `${lang == wwLib.wwLang.defaultLang ? "" : "/" + lang}/${route}`;
+      const isHomePage = wwLib.wwWebsiteData.getCurrentPage().id == wwLib.wwWebsiteData.getDesign().info.homePageId;
+      const path = `${lang == wwLib.wwLang.defaultLang ? "" : "/" + lang}${isHomePage ? "" : "/" + route}`;
       wwLib.goTo(path);
     },
     displayLang(lang) {
