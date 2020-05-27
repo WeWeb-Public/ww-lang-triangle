@@ -1,12 +1,13 @@
 <template>
   <div class="ww-lang-triangle" @mouseover="setHoverMenu(true)" @mouseleave="setHoverMenu(false)" :style="{ color: mainColor }">
     <div class="ww-lang-flag-title">
-      <img :src="flag" />
+      <div class="flag-title">
+        {{displayLang(currentLang)}}
+      </div>
       <div class="dropdown-icon">
         <wwObject tag="div" class="dropdown-button-icon" :ww-object="wwObject.content.data.dropDownIcon" :class="{ 'rotate-icon': enabledMenu }"></wwObject>
       </div>
     </div>
-
     <div class="hover-zone">
       <div class="triangle">
         <div class="triangle-after" :style="{ 'background-color': backgroundColor }"></div>
@@ -15,7 +16,6 @@
         <div
           class="lang"
           v-for="(lang, index) in availableLangs"
-          :src="flag"
           :key="lang"
           @mouseover="setHoverColor(true, index)"
           @mouseleave="setHoverColor(false, index)"
@@ -23,7 +23,6 @@
           @click="setLang(lang)"
         >
           <div class="ww-lang-flag">
-            <img :src="displayFlag(lang)" />
             {{ displayLang(lang) }}
           </div>
         </div>
@@ -63,9 +62,6 @@ export default {
     },
     iconColor() {
       return this.wwObject.content.data.iconColor || "#d9d9d9";
-    },
-    flag() {
-      return wwLib.wwApiRequests._getCdnUrl() + "public/images/flags/" + this.currentLang + ".png";
     },
     backgroundColor() {
       return this.wwObject.content.data.backgroundColor;
@@ -126,9 +122,6 @@ export default {
           return l.name;
         }
       }
-    },
-    displayFlag(lang) {
-      return wwLib.wwApiRequests._getCdnUrl() + "public/images/flags/" + lang + ".png";
     },
     setHoverMenu(value) {
       this.enabledMenu = value;
@@ -251,8 +244,8 @@ export default {
         const result = await wwLib.wwPopups.open(options);
 
         /*=============================================m_ÔÔ_m=============================================\
-                  STYLE
-                \================================================================================================*/
+          STYLE
+        \================================================================================================*/
         if (typeof result.mainColor != "undefined") {
           this.wwObject.content.data.mainColor = result.mainColor;
         }
@@ -277,11 +270,7 @@ export default {
   },
   mounted() {
     this.init();
-
     this.$emit("ww-loaded", this);
-  },
-  beforeDestroyed() {
-    //window.removeEventListener('resize', this.wwOnResize);
   },
 };
 </script>
@@ -300,10 +289,9 @@ export default {
     display: flex;
     align-items: center;
     font-size: 1.2rem;
-    img {
+    .flag-title {
       margin-left: 5px;
       margin-right: 5px;
-      width: 30px;
       border-radius: 10px;
     }
     .dropdown-icon {
@@ -314,19 +302,20 @@ export default {
   }
   .hover-zone {
     position: absolute;
-    bottom: 0px;
-    transform: translate(-70%, 100%);
+    bottom: 0;
+    right: 0;
+    width: fit-content;
+    transform: translate(5%, 100%);
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 0.2s linear;
     z-index: 10;
     .triangle {
       width: 20px;
-      height: 20px;
+      height: 11px;
       position: absolute;
       overflow: hidden;
-      // float: right;
-      right: 30px;
+      right: 10px;
       top: 1px;
       box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
     }
@@ -335,7 +324,7 @@ export default {
       width: 15px;
       height: 15px;
       transform: rotate(45deg);
-      top: 13px;
+      top: 5px;
       left: 2px;
       box-shadow: 0px 0px 6px -2px rgba(0, 0, 0, 0.5);
     }
@@ -343,13 +332,13 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 200px;
+      width: 175px;
       box-shadow: 0px 0px 3px 0px #bfbfbf;
       border-radius: 10px;
       font-family: sans-serif;
       padding: 5px 0;
       color: black;
-      margin-top: 20px;
+      margin-top: 12px;
       box-shadow: black;
       .lang {
         width: 100%;
